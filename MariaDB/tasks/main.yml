@@ -1,0 +1,32 @@
+---
+# tasks file for MariaDB
+
+
+- name: Installer mariadb
+  yum:
+    name: 
+     - mariadb-server
+     - python3-PyMySQL
+    state: present
+
+- name: Autoriser l'accès à distance
+  firewalld:
+    permanent: yes
+    immediate: yes
+    service: mysql
+    state: enabled
+
+- name: Lancer au redémarrage
+  service:
+    daemon_reload: yes
+    name: mariadb
+    state: started
+    enabled: yes
+ 
+- name: mots de passe et user root
+  mysql_user:
+          login_user: root
+          login_password: password
+          user: root
+          check_implicit_admin: true
+          password: password       
